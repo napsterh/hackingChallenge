@@ -1,9 +1,10 @@
 import React from 'react';
 import Logo from '../assets/logo-rimac.png'
 import Familia from '../assets/Illustration.png'
-import Gracias from '../assets/gracias.png'
+import Gracia from '../assets/gracias.png'
+import { StepComponentProps } from 'react-step-builder';
 
-function Pariente(): JSX.Element {
+function Gracias(props: StepComponentProps): JSX.Element {
 
     return (
         <div className="gracias">
@@ -18,7 +19,7 @@ function Pariente(): JSX.Element {
                 </div>
                 <div className="formulario-gracias">
                     <div className="formulario-gracias__gracias">
-                        <img src={Gracias} alt=""/>
+                        <img src={Gracia} alt=""/>
                     </div>
                     <p className="formulario-gracias__titulo">
                         ¡Gracias por<span className="formulario-gracias__color"> confiar en nosotros!</span>
@@ -27,7 +28,9 @@ function Pariente(): JSX.Element {
                     Queremos conocer mejor la salud de los asegurados. Un asesor se pondrá en contacto contigo en las siguientes 48 horas.
                     </h5>
                     <div className="formulario-gracias__form__btn">
-                            <input type="submit" value="Ir a salud Rimac" className=" solid"/>
+                            <a href="">
+                                <input type="submit" value="Ir a salud Rimac" className=" solid" />
+                            </a>
                         </div>
                 </div>
             </div>
@@ -35,4 +38,4 @@ function Pariente(): JSX.Element {
     )
 }
 
-export default Pariente;
+export default Gracias;

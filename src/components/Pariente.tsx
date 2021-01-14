@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Logo from '../assets/logo-rimac.png'
 import Familia from '../assets/Illustration.png'
+import axios from 'axios'
+import { StepComponentProps } from 'react-step-builder';
 
-function Pariente(): JSX.Element {
+function Pariente(props: StepComponentProps): JSX.Element {
 
     const data = [
         { id: 1,  vinculo: "Cónyugue", fechaNac: "12/12/1980"},
@@ -10,8 +12,30 @@ function Pariente(): JSX.Element {
         { id: 3,  vinculo: "Hijo", fechaNac: "03/11/2001"},
     ]
 
+
+    const [datos, setDatos] = useState({
+        nombres: '',
+        numDocumento: '',
+        apellidoPaterno: '',
+        apellidoMaterno: '',
+        fecNacimiento: ''
+    })
+
+    const getDatos =  async () => {
+        const res = await axios.post(`https://freestyle.getsandbox.com/dummy/obtenerdatospersona`)
+        console.log(res.data.data.tercero)
+        setDatos(res.data.data.tercero)
+    }
+
+    useEffect(() => {
+        getDatos();
+    }, [])
+
+    const changeDatos = ({target}:any) => {
+        setDatos(target.value)
+      }
+
     const [datas, setDatas] = React.useState(data);
-    console.log(datas)
 
     return (
         <div className="pariente">
@@ -26,7 +50,7 @@ function Pariente(): JSX.Element {
                 </div>
                 <div className="formulario-pariente">
                     <p className="formulario-pariente__titulo">
-                        Hola, <span className="formulario-pariente__color">Luisa</span>
+                        Hola, <span className="formulario-pariente__color">{datos.nombres}</span>
                     </p>
                     <h5 className="formulario-pariente__subtitulo">
                         Valida que los datos sean correctos
@@ -36,19 +60,19 @@ function Pariente(): JSX.Element {
                             <p>Datos personales del titular</p>
                         </div>
                         <div className="formulario-pariente__form__input">
-                            <input type="text" placeholder="Número de documento"/>
+                            <input type="text" value={datos.numDocumento} placeholder="Número de documento" />
                         </div>
                         <div className="formulario-pariente__form__input">
-                            <input type="text" placeholder="Nombre"/>
+                            <input type="text" value={datos.nombres} placeholder="Nombre"/>
                         </div>
                         <div className="formulario-pariente__form__input">
-                            <input type="text" placeholder="Apellido paterno"/>
+                            <input type="text" value={datos.apellidoPaterno} placeholder="Apellido paterno"/>
                         </div>
                         <div className="formulario-pariente__form__input">
-                            <input type="text" placeholder="Apellido materno"/>
+                            <input type="text" value={datos.apellidoMaterno} placeholder="Apellido materno"/>
                         </div>
                         <div className="formulario-pariente__form__input">
-                            <input type="text" placeholder="Fecha de nacimiento"/>
+                            <input type="text" value={datos.fecNacimiento} placeholder="Fecha de nacimiento"/>
                         </div>
                         <div className="formulario-pariente__form__checks">
                             <h6 className="formulario-pariente__form__genero">Género</h6>
@@ -90,7 +114,7 @@ function Pariente(): JSX.Element {
                             </tbody>
                         </table>
                         <div className="formulario-pariente__form__btn">
-                            <input type="submit" value="Continuar" className=" solid"/>
+                            <input type="submit" value="Continuar" className=" solid" onClick={props.next}/>
                         </div>
                     </form>
                 </div>
