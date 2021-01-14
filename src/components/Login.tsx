@@ -5,8 +5,11 @@ import Escudo from '../assets/ic_shield.png'
 import Mobile from '../assets/ic_mobile.png'
 import Cobertura from '../assets/ic_money.png'
 import Clinicas from '../assets/ic_clinic.png'
+import { StepComponentProps } from 'react-step-builder'
 
-function Login(): JSX.Element {
+
+function Login(props: StepComponentProps): JSX.Element {
+
 
     return (
         <div className="login">
@@ -40,13 +43,13 @@ function Login(): JSX.Element {
                     </h5>
                     <form action="#" className="formulario__form">
                         <div className="formulario__form__input">
-                            <input type="text" placeholder="Número de documento"/>
+                            <input type="text" name="documento" value={props.getState("documento", "") } onChange={props.handleChange} placeholder="Número de documento"/>
                         </div>
                         <div className="formulario__form__input">
-                            <input type="text" placeholder="Fecha de nacimiento"/>
+                            <input type="text" name="fechaNac" value={props.getState("fechaNac", "")} onChange={props.handleChange} placeholder="Fecha de nacimiento"/>
                         </div>
                         <div className="formulario__form__input">
-                            <input type="text" placeholder="Celular"/>
+                            <input type="text" name="phone" value={props.getState("phone", "")} onChange={props.handleChange} placeholder="Celular"/>
                         </div>
                         <div className="formulario__form__checks">
                             <div className="formulario__form__checkbox">
@@ -59,7 +62,7 @@ function Login(): JSX.Element {
                             </div>
                         </div>
                         <div className="formulario__form__btn">
-                            <input type="submit" value="Comencemos" className=" solid"/>
+                            <input type="submit" value="Comencemos" className=" solid" onClick={props.next}/>
                         </div>
                     </form>
                 </div>

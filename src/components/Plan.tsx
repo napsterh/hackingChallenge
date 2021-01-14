@@ -4,8 +4,9 @@ import Familia from '../assets/Illustration.png'
 import Costo from '../../src/assets/costo.png'
 import Corazon from '../../src/assets/Vector.png'
 import Corazon2 from '../../src/assets/Vector2.png'
+import { StepComponentProps } from 'react-step-builder';
 
-function Plan(): JSX.Element {
+function Plan(props: StepComponentProps): JSX.Element {
 
     const data = [
         { id: 1,  vinculo: "Cónyugue", fechaNac: "12/12/1980"},
@@ -108,7 +109,7 @@ function Plan(): JSX.Element {
                         </div>
                     </div>
                     <div className="formulario-plan__btn">
-                        <input type="submit" value="Comprar Plan" className=" solid"/>
+                        <input type="submit" value="Comprar Plan" className=" solid" onClick={props.next}/>
                     </div>
                 </div>
             </div>
