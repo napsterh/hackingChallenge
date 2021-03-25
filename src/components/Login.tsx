@@ -127,7 +127,7 @@ function Login(props: StepComponentProps): JSX.Element {
                         <Form.Group controlId="formBasicCheckbox">
                             <Form.Check
                                 type="checkbox"
-                                label={<label>Acepto la <a href='/'>Política de Protección de datos Personales y los Términos y Condiciones.</a></label>}
+                                label={<label>Acepto la <a href='/'>Política de Protección de Datos Personales y los Términos y Condiciones.</a></label>}
                                 name="check1"
                                 ref={
                                     register({
