@@ -1,21 +1,28 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Logo from '../assets/logo-rimac.png'
 import Familia from '../assets/Illustration.png'
 import Costo from '../../src/assets/costo.png'
 import Corazon from '../../src/assets/Vector.png'
 import Corazon2 from '../../src/assets/Vector2.png'
 import { StepComponentProps } from 'react-step-builder';
+import ParienteTable from './ParienteTable';
 
 function Plan(props: StepComponentProps): JSX.Element {
 
-    const data = [
-        { id: 1,  vinculo: "Cónyugue", fechaNac: "12/12/1980"},
-        { id: 2,  vinculo: "Hijo", fechaNac: "04/08/1994"},
-        { id: 3,  vinculo: "Hijo", fechaNac: "03/11/2001"},
-    ]
+        const ParienteList = [
+            { id: 1,  vinculo: 'Madre', fechaNac: '12/12/1967'},
+            { id: 2,  vinculo: 'Padre', fechaNac: '12/12/1976'},
+            { id: 3,  vinculo: 'Hijo', fechaNac: '12/12/1999'}
+        ]
 
-    const [datas, setDatas] = React.useState(data);
+    const [parientes, setParientes] = useState(ParienteList);
+
+    const [datas, setDatas] = React.useState(parientes);
     console.log(datas)
+
+    const deletePariente = (id:any) => {
+        setParientes(parientes.filter((pariente) => pariente.id !== id));
+    };
 
     return (
         <div className="plan">
@@ -35,8 +42,66 @@ function Plan(props: StepComponentProps): JSX.Element {
                     <h5 className="formulario-plan__subtitulo">
                         Selecciona tu plan de salud ideal.
                     </h5>
-                    <div className="formulario-plan__select">
-                        <div className="formulario-plan__select__uno">
+
+                    <div className="formulario-plan__select card-container">
+
+                        <div className="card">
+                            <input type="radio" name="pricing" id="card1"/>
+                            <label htmlFor="card1">
+                                <h5>BÁSICO</h5>
+                                <h3>
+                                    <span>s/</span>
+                                    160
+                                </h3>
+                                <h2>
+                                    <span>mensual</span>
+                                </h2>
+                            </label>
+                        </div>
+
+                        <div className="card">
+                            <input type="radio" name="pricing" id="card2" checked/>
+                            <label htmlFor="card2">
+                                <h5>AVANZADO</h5>
+                                <h3>
+                                    <span>S/</span>
+                                    200
+                                </h3>
+                                <h2>
+                                    <span>mensual</span>
+                                </h2>
+                            </label>
+                        </div>
+
+                        <div className="card">
+                            <input type="radio" name="pricing" id="card3"/>
+                            <label htmlFor="card3">
+                                <h5>PREMIUM</h5>
+                                <h3>
+                                    <span>S/</span>
+                                    250
+                                </h3>
+                                <h2>
+                                    <span>mensual</span>
+                                </h2>
+                            </label>
+                        </div>
+
+                        <div className="card">
+                            <input type="radio" name="pricing" id="card4"/>
+                            <label htmlFor="card4">
+                                <h5>FULL</h5>
+                                <h3>
+                                    <span>S/</span>
+                                    500
+                                </h3>
+                                <h2>
+                                    <span>mensual</span>
+                                </h2>
+                            </label>
+                        </div>
+
+                        {/* <div className="formulario-plan__select__uno">
                             <div className="formulario-plan__select__tipo">Báscio</div>
                             <div className="formulario-plan__select__costo">S/160</div>
                             <div className="formulario-plan__select__texto">mensual</div>
@@ -55,11 +120,16 @@ function Plan(props: StepComponentProps): JSX.Element {
                             <div className="formulario-plan__select__tipo">Full</div>
                             <div className="formulario-plan__select__costo">S/500</div>
                             <div className="formulario-plan__select__texto">mensual</div>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="formulario-plan__resumen">
-                        <div className="formulario-plan__resumen__asegurados">Tiene (3) asegurados</div>
                         <div className="formulario-plan__resumen__resumen">Resumen del plan </div>
+                        <div className="formulario-plan__resumen__plan">
+                            <ParienteTable
+                                parientes={parientes}
+                                deletePariente={deletePariente}
+                            />
+                        </div>
                     </div>
                     <div className="formulario-plan__beneficio">
                         <div className="formulario-plan__beneficio__titulo">Cuentas con esto beneficios</div>
