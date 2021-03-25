@@ -3,18 +3,38 @@ import Logo from '../assets/logo-rimac.png'
 import Familia from '../assets/Illustration.png'
 import axios from 'axios'
 import { StepComponentProps } from 'react-step-builder';
+import { Form, Col, FormGroup, Dropdown, DropdownButton, Button, Modal } from 'react-bootstrap'
+import { useForm } from 'react-hook-form'
+import ParienteTable from './ParienteTable'
+import ParienteForm from './ParienteForm';
+
 
 function Pariente(props: StepComponentProps): JSX.Element {
-
-    const data = [
-        { id: 1,  vinculo: "Cónyugue", fechaNac: "12/12/1980"},
-        { id: 2,  vinculo: "Hijo", fechaNac: "04/08/1994"},
-        { id: 3,  vinculo: "Hijo", fechaNac: "03/11/2001"},
+    
+    const ParienteList = [
+        { id: 1,  vinculo: 'Madre', fechaNac: '12/12/1967'},
+        { id: 2,  vinculo: 'Padre', fechaNac: '12/12/1976'},
+        { id: 3,  vinculo: 'Hijo', fechaNac: '12/12/1999'}
     ]
+
+    const [parientes, setParientes] = useState(ParienteList);
+
+    const addPariente = (pariente:any) => {
+        pariente.id = parientes.length + 1;
+        setParientes([...parientes, pariente]);
+    };
+  
+    const deletePariente = (id:any) => {
+        setParientes(parientes.filter((pariente) => pariente.id !== id));
+    };
 
 
     const [datos, setDatos] = useState({
-        nombres: '',
+        first: '',
+        name:'',
+        last: '',
+        value:'',
+        date: '',
         numDocumento: '',
         apellidoPaterno: '',
         apellidoMaterno: '',
@@ -22,9 +42,11 @@ function Pariente(props: StepComponentProps): JSX.Element {
     })
 
     const getDatos =  async () => {
-        const res = await axios.post(`https://freestyle.getsandbox.com/dummy/obtenerdatospersona`)
-        console.log(res.data.data.tercero)
-        setDatos(res.data.data.tercero)
+        const res = await axios.get(`https://randomuser.me/api`)
+        const datas:any = await JSON.parse(JSON.stringify(res.data))
+        console.log("api", datas.results[0])
+            setDatos(datas.results[0].name)
+            // setDatos(datas.results[0].dob)
     }
 
     useEffect(() => {
@@ -35,7 +57,31 @@ function Pariente(props: StepComponentProps): JSX.Element {
         setDatos(target.value)
       }
 
-    const [datas, setDatas] = React.useState(data);
+    // const [datas, setDatas] = React.useState(data);
+    const { register, errors,  handleSubmit, formState} = useForm({mode:"onChange"});
+
+
+    const onSubmit = (data:any, e:any) => {
+        console.log(data)
+        e.target.reset()
+    }
+
+    const [ detailTable, setDetailTable ] = useState(false)
+    const showTable = () => {
+        setDetailTable(true)
+    }
+
+    const hideTable = () => {
+        setDetailTable(false)
+    }
+
+    const handleAddRow = () => {
+        console.log('add')
+    }
+
+    const handleRemoveRow = () => {
+        console.log('remove')
+    }
 
     return (
         <div className="pariente">
@@ -50,73 +96,180 @@ function Pariente(props: StepComponentProps): JSX.Element {
                 </div>
                 <div className="formulario-pariente">
                     <p className="formulario-pariente__titulo">
-                        Hola, <span className="formulario-pariente__color">{datos.nombres}</span>
+                        Hola, <span className="formulario-pariente__color">{datos.first}</span>
                     </p>
                     <h5 className="formulario-pariente__subtitulo">
                         Valida que los datos sean correctos
                     </h5>
-                    <form action="#" className="formulario-pariente__form">
+
+                    <Form className="formulario-pariente__form" onSubmit={handleSubmit(onSubmit)}>
                         <div className="formulario-pariente__form__datos">
                             <p>Datos personales del titular</p>
                         </div>
-                        <div className="formulario-pariente__form__input">
-                            <input type="text" value={datos.numDocumento} placeholder="Número de documento" />
-                        </div>
-                        <div className="formulario-pariente__form__input">
-                            <input type="text" value={datos.nombres} placeholder="Nombre"/>
-                        </div>
-                        <div className="formulario-pariente__form__input">
-                            <input type="text" value={datos.apellidoPaterno} placeholder="Apellido paterno"/>
-                        </div>
-                        <div className="formulario-pariente__form__input">
-                            <input type="text" value={datos.apellidoMaterno} placeholder="Apellido materno"/>
-                        </div>
-                        <div className="formulario-pariente__form__input">
-                            <input type="text" value={datos.fecNacimiento} placeholder="Fecha de nacimiento"/>
-                        </div>
-                        <div className="formulario-pariente__form__checks">
-                            <h6 className="formulario-pariente__form__genero">Género</h6>
-                            <div className="formulario-pariente__form__checkbox">
-                                <input type="checkbox" id="masculino" name="masculino" value="masculino"/>
-                                <label htmlFor="datos">Masculino</label><br/>
+                        <Form.Row>
+                            <Form.Group as={Col} xs={3} controlId="formGridState">
+                                <Form.Control as="select" defaultValue="DNI" className="mt-4">
+                                    <option>DNI</option>
+                                    <option>CARNET EXT.</option>
+                                </Form.Control>
+                            </Form.Group>
+
+                            <Form.Group as={Col} xs={9} controlId="formGridAddress2" className="mt-4">
+                                <Form.Control
+                                    value={datos.date}
+                                    placeholder="N° Documento"
+                                    name="document"
+                                    // ref={
+                                    //     register({
+                                    //         required: {value: true, message: 'Ingrese un número de documento'}
+                                    //     })
+                                    // }
+                                />
+                                {/* <span className="text-danger text-small d-block md-2">
+                                    {errors?.document?.message}
+                                </span> */}
+                            </Form.Group>
+                        </Form.Row>
+
+                        <Form.Row>
+                            <Form.Group as={Col} controlId="formGridState">
+                                <Form.Control
+                                    value={datos.first}
+                                    type="text"
+                                    placeholder="Nombres"
+                                    name="name"
+                                    // ref={
+                                    //     register({
+                                    //         required: {value: true, message: 'Ingrese su nombre'}
+                                    //     })
+                                    // }
+                                />
+                                {/* <span className="text-danger text-small d-block md-2">
+                                    {errors?.name?.message}
+                                </span> */}
+                            </Form.Group>
+                        </Form.Row>
+
+                        <Form.Row>
+                            <Form.Group as={Col} controlId="formGridState">
+                                <Form.Control
+                                    value={datos.last}
+                                    type="text"
+                                    placeholder="Apellido paterno"
+                                    name="aPaterno"
+                                    // ref={
+                                    //     register({
+                                    //         required: {value: true, message: 'Ingrese su Ap. Paterno'}
+                                    //     })
+                                    // }
+                                />
+                                {/* <span className="text-danger text-small d-block md-2">
+                                    {errors?.aPaterno?.message}
+                                </span> */}
+                            </Form.Group>
+                        </Form.Row>
+
+                        <Form.Row>
+                            <Form.Group as={Col} controlId="formGridState">
+                                <Form.Control
+                                    value={datos.last}
+                                    type="text"
+                                    placeholder="Apellido materno"
+                                    name="name"
+                                    // ref={
+                                    //     register({
+                                    //         required: {value: true, message: 'Ingrese su Ap. materno'}
+                                    //     })
+                                    // }
+                                />
+                                {/* <span className="text-danger text-small d-block md-2">
+                                    {errors?.aMaterno?.message}
+                                </span> */}
+                            </Form.Group>
+                        </Form.Row>
+
+                        <Form.Row>
+                            <Form.Group as={Col} controlId="formGridState">
+                                <Form.Control
+                                    value={datos.date}
+                                    name="date"
+                                    type="date"
+                                    placeholder="Fecha de nac."
+                                    // ref={
+                                    //     register({
+                                    //         required: {value: true, message: 'Ingrese una fecha'}
+                                    //     })
+                                    // }
+                                />
+                                {/* <span className="text-danger text-small d-block md-2">
+                                    {errors?.date?.message}
+                                </span> */}
+                            </Form.Group>
+                        </Form.Row>
+
+                        <h6 className="formulario-pariente__form__genero">Género</h6>
+                        <fieldset>
+                            <Form.Group>
+                                <Col sm={10}>
+                                    <Form.Check
+                                        type="radio"
+                                        label="Masculino"
+                                        name="groupOptions"
+                                        id="masculino"
+                                    />
+                                    <Form.Check
+                                        type="radio"
+                                        label="Femenino"
+                                        name="groupOptions"
+                                        id="feminino"
+                                    />
+                                </Col>
+                            </Form.Group>
+                        </fieldset>
+
+                        <h6 className="formulario-pariente__form__genero">¿A quién vamos a asegurar?</h6>
+
+                        <fieldset>
+                            <Form.Group>
+                                <Col sm={10}>
+                                    <Form.Check
+                                        type="radio"
+                                        label="Solo a mí"
+                                        name="groupOptions2"
+                                        id="personal"
+                                        onClick={hideTable}
+                                    />
+                                    <Form.Check
+                                        type="radio"
+                                        label="A mí y a mi familia"
+                                        name="groupOptions2"
+                                        id="familiar"
+                                        onClick={showTable}
+                                    />
+                                </Col>
+                            </Form.Group>
+                        </fieldset>
+
+                        {
+                            detailTable ?
+                            <div>
+                            <h6 className="formulario-pariente__form__genero my-3">Datos familiares</h6>
+                                <Form>
+                                    <ParienteForm addPariente={addPariente} />
+                                </Form>
+                                <ParienteTable
+                                    parientes={parientes}
+                                    deletePariente={deletePariente}
+                                />
                             </div>
-                            <div className="formulario-pariente__form__checkbox">
-                                <input type="checkbox" id="femenino" name="femenino" value="femenino"/>
-                                <label htmlFor="femenino">Femenino</label>
-                            </div>
-                            <h6 className="formulario-pariente__form__genero">¿A quién vamos a asegurar?</h6>
-                            <div className="formulario-pariente__form__checkbox">
-                                <input type="checkbox" id="soloMi" name="soloMi" value="masculino"/>
-                                <label htmlFor="soloMi">Solo a mí</label><br/>
-                            </div>
-                            <div className="formulario-pariente__form__checkbox">
-                                <input type="checkbox" id="familia" name="familia" value="familia"/>
-                                <label htmlFor="familia">A mí y a mi familia</label>
-                            </div>
-                        </div>
-                        <h6 className="formulario-pariente__form__table">Datos de los familiares</h6>
-                        <table className="formulario-pariente__form__tb">
-                            <thead className="formulario-pariente__form__tb__headtb">
-                                <tr>
-                                    <th>Vínculo</th>
-                                    <th>Fecha de Nacimiento</th>
-                                    <th><a href="">Agregar</a></th>
-                                </tr>
-                            </thead>
-                            <tbody className="formulario-pariente__form__tb__bodytb">
-                                {datas.map((data) => (
-                                    <tr className="formulario-pariente__form__bodytr">
-                                        <td className="formulario-pariente__form__bodytd">{data.vinculo}</td>
-                                        <td className="formulario-pariente__form__bodytd">{data.fechaNac}</td>
-                                        <td className="formulario-pariente__form__bodytd"><a href="">Eliminar</a></td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                        <div className="formulario-pariente__form__btn">
-                            <input type="submit" value="Continuar" className=" solid" onClick={props.next}/>
-                        </div>
-                    </form>
+                            :
+                            null
+                        }
+
+                        <Button  className="btn btn-danger mb-4" type="submit" onClick={props.next} disabled={!formState.isValid}>
+                            Continuar
+                        </Button>
+                    </Form>
                 </div>
             </div>
         </div>
