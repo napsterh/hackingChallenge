@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/hackingChallenge/static/css/main.00a3add7.chunk.css",
+    "main.js": "/hackingChallenge/static/js/main.de4cedb7.chunk.js",
+    "main.js.map": "/hackingChallenge/static/js/main.de4cedb7.chunk.js.map",
+    "runtime-main.js": "/hackingChallenge/static/js/runtime-main.1096f3dc.js",
+    "runtime-main.js.map": "/hackingChallenge/static/js/runtime-main.1096f3dc.js.map",
+    "static/css/2.150d169a.chunk.css": "/hackingChallenge/static/css/2.150d169a.chunk.css",
+    "static/js/2.d90507cb.chunk.js": "/hackingChallenge/static/js/2.d90507cb.chunk.js",
+    "static/js/2.d90507cb.chunk.js.map": "/hackingChallenge/static/js/2.d90507cb.chunk.js.map",
+    "static/js/3.210fd7be.chunk.js": "/hackingChallenge/static/js/3.210fd7be.chunk.js",
+    "static/js/3.210fd7be.chunk.js.map": "/hackingChallenge/static/js/3.210fd7be.chunk.js.map",
+    "index.html": "/hackingChallenge/index.html",
+    "static/css/2.150d169a.chunk.css.map": "/hackingChallenge/static/css/2.150d169a.chunk.css.map",
+    "static/css/main.00a3add7.chunk.css.map": "/hackingChallenge/static/css/main.00a3add7.chunk.css.map",
+    "static/js/2.d90507cb.chunk.js.LICENSE.txt": "/hackingChallenge/static/js/2.d90507cb.chunk.js.LICENSE.txt",
+    "static/media/Illustration.bffab5ac.png": "/hackingChallenge/static/media/Illustration.bffab5ac.png",
+    "static/media/gracias.c3931f02.png": "/hackingChallenge/static/media/gracias.c3931f02.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.1096f3dc.js",
+    "static/css/2.150d169a.chunk.css",
+    "static/js/2.d90507cb.chunk.js",
+    "static/css/main.00a3add7.chunk.css",
+    "static/js/main.de4cedb7.chunk.js"
+  ]
+}
